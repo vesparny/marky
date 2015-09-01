@@ -1,0 +1,19 @@
+#!/bin/sh
+
+npm run build
+rm -rf gh-pages
+mkdir gh-pages
+cd gh-pages
+mkdir dist
+cp -r ../dist/* dist/
+cp ../src/index.html .
+cp ../src/favicon.ico .
+cp ../src/robots.txt .
+git init .
+git remote add origin git@github.com:vesparny/marky.git
+git checkout -b gh-pages
+git add .
+git commit -m 'publishing'
+git push origin gh-pages -f
+cd ..
+rm -rf gh-pages

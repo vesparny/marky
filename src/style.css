@@ -1,0 +1,8 @@
+html {
+  overflow: hidden
+}
+
+code.hljs::-webkit-scrollbar, pre::-webkit-scrollbar {
+  /* This is the magic bit */
+  display: none;
+}

@@ -1,0 +1,9 @@
+{
+  "watch": [
+    "webpack.config.js"
+  ],
+  "ext": "js json jade",
+  "env": {
+    "NODE_ENV": "development"
+  }
+}
