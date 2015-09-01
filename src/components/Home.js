@@ -3,7 +3,7 @@ import markdown from 'markdown-it';
 import Editor from './Editor';
 import Preview from './Preview';
 import hljs from 'highlight.js'
-import {debounce} from 'lodash';
+import {debounce, memoize} from 'lodash';
 import defaultMd from '../default.md';
 
 const parser = markdown({
@@ -22,52 +22,40 @@ const Home = React.createClass({
   },
 
   componentDidMount() {
-    var o = debounce(this.onEditorScroll, 10);
-    var t = debounce(this.onPreviewScroll, 10);
-    var a = () => {
-      console.log('ok')
-      React.findDOMNode(this.refs.editor).removeEventListener('scroll', o)
-      React.findDOMNode(this.refs.preview).removeEventListener('scroll', t)
-      React.findDOMNode(this.refs.editor).addEventListener('scroll', o)
-    };
+    const debouncedEditorScrollHandler = debounce(this.onPaneScroll.bind(this, 'editor'), 10);
+    const debouncedPreviewScrollHandler = debounce(this.onPaneScroll.bind(this, 'preview'), 10);
+    const bindEvents = (targetElRefName) => () => {
+      const scrollHandler = targetElRefName === 'editor' ? debouncedEditorScrollHandler : debouncedPreviewScrollHandler;
+      // unbind all
+      React.findDOMNode(this.refs.editor).removeEventListener('scroll', debouncedEditorScrollHandler)
+      React.findDOMNode(this.refs.preview).removeEventListener('scroll', debouncedPreviewScrollHandler)
+      // bind right one
+      React.findDOMNode(this.refs[targetElRefName]).addEventListener('scroll', scrollHandler)
+    }
 
-    var b = () => {
-      console.log('ok')
-      React.findDOMNode(this.refs.editor).removeEventListener('scroll', o)
-      React.findDOMNode(this.refs.preview).removeEventListener('scroll', t)
-      React.findDOMNode(this.refs.preview).addEventListener('scroll', t)
-    };
+
 
     hljs.initHighlightingOnLoad();
-    React.findDOMNode(this.refs.preview).addEventListener('mouseenter', b);
-
-    React.findDOMNode(this.refs.editor).addEventListener('mouseenter', a);
-
+    ['mouseenter', 'touchstart'].forEach((evt) => {
+      React.findDOMNode(this.refs.preview).addEventListener(evt, bindEvents('preview'));
+      React.findDOMNode(this.refs.editor).addEventListener(evt, bindEvents('editor'));
+    });
   },
 
   onChange(value) {
     this.setState({
       markdown: value,
       html: parser.render(value)
-    })
+    });
   },
-  onPreviewScroll(e, elRef) {
-    console.log('bbb')
 
-      const target = React.findDOMNode(this.refs.preview);
-      const other = React.findDOMNode(this.refs.editor);
+  onPaneScroll(targetElRefName) {
+      const otherRefName = targetElRefName === 'editor' ? 'preview': 'editor';
+      const target = React.findDOMNode(this.refs[targetElRefName]);
+      const other = React.findDOMNode(this.refs[otherRefName]);
       const percentage = (target.scrollTop * 100) / (target.scrollHeight - target.offsetHeight);
       other.scrollTop = percentage * (other.scrollHeight - other.offsetHeight) / 100;
-
   },
-  onEditorScroll(e, elRef) {
-    console.log('aaa')
-    const target = React.findDOMNode(this.refs.editor);
-    const other = React.findDOMNode(this.refs.preview);
-    const percentage = (target.scrollTop * 100) / (target.scrollHeight - target.offsetHeight);
-    other.scrollTop = percentage * (other.scrollHeight - other.offsetHeight) / 100;
-  },
-
 
   render() {
 
