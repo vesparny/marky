@@ -47,6 +47,10 @@ const Editor = React.createClass({
     this.props.onChange(this.editor.getValue());
   },
 
+  shouldComponentUpdate (newProps){
+    return false;
+  },
+
   render: function() {
     return (
       <div

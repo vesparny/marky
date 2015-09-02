@@ -1,5 +1,4 @@
-An h1 header
-============
+# An h1 header
 
 Paragraphs are separated by a blank line.
 
@@ -25,7 +24,7 @@ Unicode is supported. ☺
 
 
 
-An h2 header
+## An h2 header
 ------------
 
 Here's a numbered list:
@@ -34,8 +33,30 @@ Here's a numbered list:
  2. second item
  3. third item
 
+ Here's an unordered list:
+
+  * first item
+  * second item
+  * third item
+
+
+**code with syntax higlight**
+
 ```js
 const func = (val) => {
   // some code
   console.log(val);
 }
+
+componentDidMount() {
+  const debouncedEditorScrollHandler = debounce(this.onPaneScroll.bind(this, 'editor'), 10);
+  const debouncedPreviewScrollHandler = debounce(this.onPaneScroll.bind(this, 'preview'), 10);
+  const bindEvents = (targetElRefName) => () => {
+    const scrollHandler = targetElRefName === 'editor' ? debouncedEditorScrollHandler : debouncedPreviewScrollHandler;
+    // unbind all
+    React.findDOMNode(this.refs.editor).removeEventListener('scroll', debouncedEditorScrollHandler)
+    React.findDOMNode(this.refs.preview).removeEventListener('scroll', debouncedPreviewScrollHandler)
+    // bind right one
+    React.findDOMNode(this.refs[targetElRefName]).addEventListener('scroll', scrollHandler)
+  }
+  ```

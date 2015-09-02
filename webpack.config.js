@@ -49,10 +49,16 @@ module.exports = {
       test: /\.md?$/,
       loader: 'text'
     }, {
-      test: /\.styl|\.css$/,
-      loader: ExtractTextPlugin.extract('css-loader')
+      test: /\.css$/,
+      loader: ExtractTextPlugin.extract('style', 'css')
+    }, {
+      test: /\.styl$/,
+      loader: ExtractTextPlugin.extract('style', 'css?modules&localIdentName=[name]---[local]---[hash:base64:5]!postcss!stylus')
     }]
   },
+  postcss: [
+    require('autoprefixer-core')
+  ],
   plugins: plugins.concat([
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
