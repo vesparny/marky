@@ -7,7 +7,7 @@ const Preview = React.createClass({
   },
 
   shouldComponentUpdate(newProps){
-    return newProps.value!==this.props.value
+    return newProps.value !== this.props.value
   },
 
   render: function() {

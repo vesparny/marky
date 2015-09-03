@@ -18,23 +18,26 @@ const Home = React.createClass({
   },
 
   componentDidMount() {
+    console.log('a')
     const editor = React.findDOMNode(this.refs.editor)
     const preview = React.findDOMNode(this.refs.preview)
-    const debouncedEditorScrollHandler = debounce(this.onPaneScroll.bind(this, 'editor'), 10);
-    const debouncedPreviewScrollHandler = debounce(this.onPaneScroll.bind(this, 'preview'), 10);
+    const editorScrollHandler = this.onPaneScroll.bind(this, 'editor');
+    const previewScrollHandler = this.onPaneScroll.bind(this, 'preview');
     const bindEvents = (targetElRefName) => () => {
-      const scrollHandler = targetElRefName === 'editor' ? debouncedEditorScrollHandler : debouncedPreviewScrollHandler;
-      // unbind all
-      editor.removeEventListener('scroll', debouncedEditorScrollHandler)
-      preview.removeEventListener('scroll', debouncedPreviewScrollHandler)
+      console.log(targetElRefName)
+
+      const scrollHandler = targetElRefName === 'editor' ? editorScrollHandler : previewScrollHandler;
+      // unbind other
+      targetElRefName === 'editor' ?
+        preview.removeEventListener('scroll', previewScrollHandler) :
+        editor.removeEventListener('scroll', editorScrollHandler)
       // bind right one
       React.findDOMNode(this.refs[targetElRefName]).addEventListener('scroll', scrollHandler)
     }
-
     hljs.initHighlightingOnLoad();
     ['mousemove', 'touchstart', 'click'].forEach((evt) => {
-      preview.addEventListener(evt, bindEvents('preview'));
       editor.addEventListener(evt, bindEvents('editor'));
+      preview.addEventListener(evt, bindEvents('preview'));
     });
     // start binding events
     preview.click();
@@ -69,7 +72,7 @@ const Home = React.createClass({
             onChange={this.onChange}
           />
         </Panel>
-        <Panel ref="preview">
+        <Panel ref="preview" overflowY>
           <Preview
             value={this.state.html}
           />
