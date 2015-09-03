@@ -9,8 +9,7 @@ var StatsPlugin = require('stats-webpack-plugin');
 var isDev = process.env.NODE_ENV !== 'production';
 
 var plugins = isDev ? [
-  new webpack.HotModuleReplacementPlugin(),
-  new ExtractTextPlugin('main.css')
+  new webpack.HotModuleReplacementPlugin()
 ] : [
   new ExtractTextPlugin('main.css'),
   new webpack.optimize.UglifyJsPlugin({
@@ -50,10 +49,12 @@ module.exports = {
       loader: 'text'
     }, {
       test: /\.css$/,
-      loader: ExtractTextPlugin.extract('style', 'css')
+      loader: isDev ? 'style!css' : ExtractTextPlugin.extract('style', 'css')
     }, {
       test: /\.styl$/,
-      loader: ExtractTextPlugin.extract('style', 'css?modules&localIdentName=[name]---[local]---[hash:base64:5]!postcss!stylus')
+      loader: isDev ?
+        'style!css?modules&localIdentName=[name]---[local]---[hash:base64:5]!postcss!stylus' :
+        ExtractTextPlugin.extract('style', 'css?modules&localIdentName=[name]---[local]---[hash:base64:5]!postcss!stylus')
     }]
   },
   postcss: [
@@ -62,7 +63,7 @@ module.exports = {
   plugins: plugins.concat([
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-      '__DEV__': JSON.stringify(isDev || true)
+      '__DEV__': JSON.stringify(isDev)
     })
   ]),
   _hotPort: hotPort

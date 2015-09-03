@@ -1,4 +1,29 @@
-# An h1 header
+# Hello hello
+
+### Marky is a cool markdwon editor powered by
+* [react](http://facebook.github.io/react/)
+* [redux](https://github.com/rackt/redux/)
+* [basscss](www.basscss.com/)
+* [css-mosules](https://github.com/css-modules/css-modules)
+* [ace editor](http://ace.c9.io/)
+* [markdown-it](https://github.com/markdown-it/markdown-it)
+
+
+#### It ships with some handy features
+
+* permalink support for easy sharing
+* syntax highlighting
+* emoji
+* syncronized scrolling
+* github github flavored markdown
+
+
+**try buttons on the top-right corner and give it a spin** :)
+
+The source code is on [GitHub](https://github.com/vesparny/marky/)
+
+
+## some markdown examples
 
 Paragraphs are separated by a blank line.
 
@@ -18,11 +43,7 @@ content starts at 4-columns in.
 > They can span multiple paragraphs,
 > if you like.
 
-Use 3 dashes for an em-dash. Use 2 dashes for ranges (ex., "it's all
-in chapters 12--14"). Three dots ... will be converted to an ellipsis.
 Unicode is supported. ☺
-
-
 
 ## An h2 header
 ------------
@@ -39,24 +60,10 @@ Here's a numbered list:
   * second item
   * third item
 
-
-**code with syntax higlight**
+some code
 
 ```js
-const func = (val) => {
-  // some code
-  console.log(val);
+const myAwesomeFunction = () => {
+  // some code here
+  console.log('ciao');
 }
-
-componentDidMount() {
-  const debouncedEditorScrollHandler = debounce(this.onPaneScroll.bind(this, 'editor'), 10);
-  const debouncedPreviewScrollHandler = debounce(this.onPaneScroll.bind(this, 'preview'), 10);
-  const bindEvents = (targetElRefName) => () => {
-    const scrollHandler = targetElRefName === 'editor' ? debouncedEditorScrollHandler : debouncedPreviewScrollHandler;
-    // unbind all
-    React.findDOMNode(this.refs.editor).removeEventListener('scroll', debouncedEditorScrollHandler)
-    React.findDOMNode(this.refs.preview).removeEventListener('scroll', debouncedPreviewScrollHandler)
-    // bind right one
-    React.findDOMNode(this.refs[targetElRefName]).addEventListener('scroll', scrollHandler)
-  }
-  ```

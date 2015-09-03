@@ -3,78 +3,103 @@ import Editor from './Editor';
 import Preview from './Preview';
 import Panel from './Panel';
 import hljs from 'highlight.js'
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 import {debounce} from 'lodash';
+import * as actions from '../actions';
+import createPermalink from '../createPermalink';
 
-import defaultMd from '../default.md';
-import parser from '../parser';
-
-const Home = React.createClass({
-
-  getInitialState() {
-    return {
-      markdown: defaultMd,
-      html: ''
-    };
-  },
+const App = React.createClass({
 
   componentDidMount() {
-    console.log('a')
     const editor = React.findDOMNode(this.refs.editor)
     const preview = React.findDOMNode(this.refs.preview)
-    const editorScrollHandler = this.onPaneScroll.bind(this, 'editor');
-    const previewScrollHandler = this.onPaneScroll.bind(this, 'preview');
-    const bindEvents = (targetElRefName) => () => {
-      console.log(targetElRefName)
-
-      const scrollHandler = targetElRefName === 'editor' ? editorScrollHandler : previewScrollHandler;
-      // unbind other
-      targetElRefName === 'editor' ?
-        preview.removeEventListener('scroll', previewScrollHandler) :
-        editor.removeEventListener('scroll', editorScrollHandler)
-      // bind right one
-      React.findDOMNode(this.refs[targetElRefName]).addEventListener('scroll', scrollHandler)
+    this.onEditorScroll = this.sync(editor, preview, 'editor');
+    this.onPreviewScroll = this.sync(preview, editor, 'preview');
+    if (this.props.isScrolling) {
+      this.bindEvents();
     }
-    hljs.initHighlightingOnLoad();
-    ['mousemove', 'touchstart', 'click'].forEach((evt) => {
-      editor.addEventListener(evt, bindEvents('editor'));
-      preview.addEventListener(evt, bindEvents('preview'));
-    });
-    // start binding events
-    preview.click();
-    editor.click();
+  },
+
+  componentWillReceiveProps(props) {
+    if (props.isScrolling) {
+      this.unbindEvents();
+      this.bindEvents();
+    }else{
+      this.unbindEvents()
+    }
+  },
+
+  sync(target, other, scrollingElName){
+    return () => {
+      const notScrollingElHandler = scrollingElName === 'preview' ?
+        this.onEditorScroll :
+        this.onPreviewScroll;
+      const percentage = (target.scrollTop * 100) / (target.scrollHeight - target.offsetHeight);
+      other.removeEventListener('scroll', notScrollingElHandler);
+      other.scrollTop = percentage * (other.scrollHeight - other.offsetHeight) / 100;
+      setTimeout(() => other.addEventListener('scroll', notScrollingElHandler), 20);
+    }
+  },
+
+  bindEvents(){
+    React.findDOMNode(this.refs.editor).addEventListener('scroll', this.onEditorScroll);
+    React.findDOMNode(this.refs.preview).addEventListener('scroll', this.onPreviewScroll);
+  },
+
+  unbindEvents(){
+    React.findDOMNode(this.refs.editor).removeEventListener('scroll', this.onEditorScroll);
+    React.findDOMNode(this.refs.preview).removeEventListener('scroll', this.onPreviewScroll);
   },
 
   onChange(value) {
-    this.setState({
-      markdown: value,
-      html: parser.render(value)
-    });
+    if (this.debouncedChange){
+      this.debouncedChange(value);
+    }else {
+      this.debouncedChange = debounce(this.props.convertMarkdown, 10);
+      this.debouncedChange(value);
+    }
   },
 
-  onPaneScroll(targetElRefName) {
-      const otherRefName = targetElRefName === 'editor' ? 'preview': 'editor';
-      const target = React.findDOMNode(this.refs[targetElRefName]);
-      const other = React.findDOMNode(this.refs[otherRefName]);
-      const percentage = (target.scrollTop * 100) / (target.scrollHeight - target.offsetHeight);
-      other.scrollTop = percentage * (other.scrollHeight - other.offsetHeight) / 100;
+  createPermalink() {
+    const {markdown, isScrolling} = this.props;
+    createPermalink({markdown, isScrolling});
+  },
+
+  reset() {
+    this.props.reset();
+  },
+
+  toggleScrolling() {
+    this.props.toggleScrolling();
   },
 
   render() {
-
     return (
-      <section>
-        <header className="white bg-blue flex flex-center" style={{height: '50px'}}>
-          <h3 className="ml1 mr0 mt0 mb0">Marky</h3>
+      <section className="clearfix">
+        <header className="white bg-silver flex flex-center" style={{height: '50px'}}>
+          <h3 className="flex flex-auto ml1 mr0 mt0 mb0 blue">Marky</h3>
+          <div className="flex ">
+            <button className="btn btn-primary mr1 ml1 bg-orange" onClick={this.createPermalink}>permalink</button>
+            <button className="btn btn-primary mr1 ml1 bg-orange" onClick={this.reset}>reset</button>
+            <button className="btn btn-primary mr1 ml1 bg-orange" onClick={this.toggleScrolling}>
+              {this.props.isScrolling ?
+               'disable scrolling':
+               'enable scrolling'
+              }
+            </button>
+            <a href="https://github.com/vesparny/marky" className="btn btn-primary mr1 ml1 bg-blue">GitHub</a>
+          </div>
         </header>
         <Panel ref="editor">
           <Editor
-            value={this.state.markdown}
+            value={this.props.markdown}
             onChange={this.onChange}
           />
         </Panel>
         <Panel ref="preview" overflowY>
           <Preview
-            value={this.state.html}
+            value={this.props.html}
           />
         </Panel>
       </section>
@@ -82,4 +107,12 @@ const Home = React.createClass({
   }
 });
 
-export default Home;
+function mapStateToProps(state) {
+  return state.marky;
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(actions, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

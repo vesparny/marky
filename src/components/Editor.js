@@ -35,7 +35,7 @@ const Editor = React.createClass({
 
   componentWillReceiveProps: function(nextProps) {
     if (this.editor.getValue() !== nextProps.value) {
-      this.editor.setValue(nextProps.value, nextProps.cursorStart);
+      this.editor.setValue(nextProps.value);
     }
   },
 
