@@ -16,3 +16,5 @@
 * emoji
 * syncronized scrolling
 * github github flavored markdown
+
+[try it](http://vesparny.github.io/marky/)
