@@ -1,6 +1,6 @@
 # Hello hello
 
-### Marky is a cool markdwon editor powered by
+### Marky is a cool markdown editor powered by
 * [react](http://facebook.github.io/react/)
 * [redux](https://github.com/rackt/redux/)
 * [basscss](www.basscss.com/)
