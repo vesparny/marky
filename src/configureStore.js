@@ -7,6 +7,7 @@ export default function configureStore(initialState) {
     collapsed: false
   });
   let store;
+
   if (__DEV__) {
     const createStoreWithMiddleware = applyMiddleware(
       logger
@@ -15,6 +16,7 @@ export default function configureStore(initialState) {
   } else {
     store = createStore(reducer, initialState);
   }
+
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
     module.hot.accept('./reducers', () => {

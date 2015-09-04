@@ -1,8 +1,15 @@
-import React from 'react';
-import style from './Panel.styl'
+import React, {PropTypes} from 'react';
 import classnames from 'classnames';
+import style from './Panel.styl';
 
 const Panel = React.createClass({
+
+  propTypes: __DEV__ && {
+    onChange: PropTypes.func,
+    value: PropTypes.string,
+    overflowY: PropTypes.bool,
+    children: PropTypes.element.isRequired
+  },
 
   render() {
     const cssClasses = classnames({
@@ -11,6 +18,7 @@ const Panel = React.createClass({
       [style.overflowScroll]: !this.props.overflowY,
       [style.overflowYScroll]: this.props.overflowY
     });
+
     return (
       <div
         className={cssClasses}

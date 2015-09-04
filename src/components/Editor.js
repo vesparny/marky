@@ -1,5 +1,5 @@
-import ace from 'brace';
 import React, {PropTypes} from 'react';
+import ace from 'brace';
 import 'brace/mode/markdown';
 import 'brace/theme/github';
 import {noop} from 'lodash';
@@ -22,7 +22,7 @@ const Editor = React.createClass({
     this.editor = ace.edit(React.findDOMNode(this));
     this.editor.$blockScrolling = Infinity;
     this.editor.getSession().setMode('ace/mode/markdown');
-    this.editor.getSession().setUseWrapMode(true)
+    this.editor.getSession().setUseWrapMode(true);
     this.editor.setTheme('ace/theme/github');
     this.editor.setFontSize(14);
     this.editor.on('change', this.onChange);
@@ -45,10 +45,6 @@ const Editor = React.createClass({
 
   onChange() {
     this.props.onChange(this.editor.getValue());
-  },
-
-  shouldComponentUpdate (newProps){
-    return false;
   },
 
   render: function() {

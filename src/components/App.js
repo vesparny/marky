@@ -1,8 +1,7 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import Editor from './Editor';
 import Preview from './Preview';
 import Panel from './Panel';
-import hljs from 'highlight.js'
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {debounce} from 'lodash';
@@ -11,11 +10,18 @@ import createPermalink from '../createPermalink';
 
 const App = React.createClass({
 
+  propTypes: __DEV__ && {
+    isScrolling: PropTypes.bool,
+    markdown: PropTypes.string,
+    html: PropTypes.string
+  },
+
   componentDidMount() {
-    const editor = React.findDOMNode(this.refs.editor)
-    const preview = React.findDOMNode(this.refs.preview)
+    const editor = React.findDOMNode(this.refs.editor);
+    const preview = React.findDOMNode(this.refs.preview);
     this.onEditorScroll = this.sync(editor, preview, 'editor');
     this.onPreviewScroll = this.sync(preview, editor, 'preview');
+
     if (this.props.isScrolling) {
       this.bindEvents();
     }
@@ -25,12 +31,12 @@ const App = React.createClass({
     if (props.isScrolling) {
       this.unbindEvents();
       this.bindEvents();
-    }else{
-      this.unbindEvents()
+    }else {
+      this.unbindEvents();
     }
   },
 
-  sync(target, other, scrollingElName){
+  sync(target, other, scrollingElName) {
     return () => {
       const notScrollingElHandler = scrollingElName === 'preview' ?
         this.onEditorScroll :
@@ -39,15 +45,15 @@ const App = React.createClass({
       other.removeEventListener('scroll', notScrollingElHandler);
       other.scrollTop = percentage * (other.scrollHeight - other.offsetHeight) / 100;
       setTimeout(() => other.addEventListener('scroll', notScrollingElHandler), 20);
-    }
+    };
   },
 
-  bindEvents(){
+  bindEvents() {
     React.findDOMNode(this.refs.editor).addEventListener('scroll', this.onEditorScroll);
     React.findDOMNode(this.refs.preview).addEventListener('scroll', this.onPreviewScroll);
   },
 
-  unbindEvents(){
+  unbindEvents() {
     React.findDOMNode(this.refs.editor).removeEventListener('scroll', this.onEditorScroll);
     React.findDOMNode(this.refs.preview).removeEventListener('scroll', this.onPreviewScroll);
   },
@@ -84,7 +90,7 @@ const App = React.createClass({
             <button className="btn btn-primary mr1 ml1 bg-orange" onClick={this.reset}>reset</button>
             <button className="btn btn-primary mr1 ml1 bg-orange" onClick={this.toggleScrolling}>
               {this.props.isScrolling ?
-               'disable scrolling':
+               'disable scrolling' :
                'enable scrolling'
               }
             </button>

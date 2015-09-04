@@ -1,5 +1,7 @@
 # Marky
 
+[See it in Action](http://vesparny.github.io/marky/)
+
 ### Marky is a cool markdown editor powered by
 * [react](http://facebook.github.io/react/)
 * [redux](https://github.com/rackt/redux/)
@@ -11,10 +13,8 @@
 
 #### It ships with some handy features
 
-* permalink support for easy sharing
+* permalinking for easy sharing
 * syntax highlighting
-* emoji
+* emoji support
 * syncronized scrolling
-* github github flavored markdown
-
-[try it](http://vesparny.github.io/marky/)
+* GitHub flavored markdown

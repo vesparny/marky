@@ -1,7 +1,7 @@
 import 'babel/polyfill';
 import 'basscss/css/basscss.css';
-import 'highlight.js/styles/github.css'
-import './style.css'
+import 'highlight.js/styles/github.css';
+import './style.css';
 import React from 'react';
 import attachFastClick from 'fastclick';
 import {Provider} from 'react-redux';
@@ -28,7 +28,7 @@ if (window.location.hash) {
     markdown: parsedState.markdown || defaultMd,
     html: '',
     isScrolling: parsedState.isScrolling === 'true'
-  }
+  };
 }
 
 const store = configureStore({marky});

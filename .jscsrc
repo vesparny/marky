@@ -67,7 +67,7 @@
   "disallowKeywordsOnNewLine": ["else", "catch"],
   "requireLineFeedAtFileEnd": true,
   "maximumLineLength": {
-    "value": 100,
+    "value": 150,
     "allowUrlComments": true
   },
   "requireCapitalizedConstructors": true,
