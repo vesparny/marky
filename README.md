@@ -1,6 +1,6 @@
 # Marky
 
-[See it in Action](http://vesparny.github.io/marky/)
+[![Build Status](https://travis-ci.org/vesparny/marky.svg)](https://travis-ci.org/vesparny/marky)
 
 ### Marky is a cool markdown editor powered by
 * [react](http://facebook.github.io/react/)
