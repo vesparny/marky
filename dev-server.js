@@ -20,7 +20,7 @@ const serverOptions = {
 const compiler = webpack(config);
 const webpackDevServer = new WebpackDevServer(compiler, serverOptions);
 
-webpackDevServer.listen(config._hotPort, function (err) {
+webpackDevServer.listen(config._hotPort, function listen(err) {
   if (err) {
     throw err;
   }

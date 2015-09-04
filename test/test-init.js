@@ -8,6 +8,6 @@ global.expect = expect;
 global.sinon = sinon;
 
 // ensure requiring css not to throw
-require.extensions['.css'] = function () {
+require.extensions['.css'] = function() {
   return null;
 };

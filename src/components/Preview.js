@@ -10,7 +10,7 @@ const Preview = React.createClass({
     return newProps.value !== this.props.value;
   },
 
-  render: function() {
+  render() {
     return (
       <div dangerouslySetInnerHTML={{__html: this.props.value}} />
     );

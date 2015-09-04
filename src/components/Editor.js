@@ -18,7 +18,7 @@ const Editor = React.createClass({
     };
   },
 
-  componentDidMount: function() {
+  componentDidMount() {
     this.editor = ace.edit(React.findDOMNode(this));
     this.editor.$blockScrolling = Infinity;
     this.editor.getSession().setMode('ace/mode/markdown');
@@ -33,13 +33,13 @@ const Editor = React.createClass({
     this.editor.setShowPrintMargin(false);
   },
 
-  componentWillReceiveProps: function(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (this.editor.getValue() !== nextProps.value) {
       this.editor.setValue(nextProps.value);
     }
   },
 
-  componentWillUnmount: function() {
+  componentWillUnmount() {
     this.editor.destroy();
   },
 
@@ -47,7 +47,7 @@ const Editor = React.createClass({
     this.props.onChange(this.editor.getValue());
   },
 
-  render: function() {
+  render() {
     return (
       <div
         onChange={this.onChange}

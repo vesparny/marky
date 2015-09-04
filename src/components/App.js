@@ -59,7 +59,7 @@ const App = React.createClass({
   },
 
   onChange(value) {
-    if (this.debouncedChange){
+    if (this.debouncedChange) {
       this.debouncedChange(value);
     }else {
       this.debouncedChange = debounce(this.props.convertMarkdown, 10);

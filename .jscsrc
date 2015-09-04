@@ -1,5 +1,5 @@
 {
-  "esprima": "./node_modules/babel-jscs",
+  "esprima": "babel-jscs",
   "esnext": true,
   "requireCurlyBraces": ["else", "for", "while", "do", "try", "catch", "case", "default"],
   "requireSpaceAfterKeywords": [
