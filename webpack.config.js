@@ -14,7 +14,8 @@ var plugins = isDev ? [
   new ExtractTextPlugin('main.css'),
   new webpack.optimize.UglifyJsPlugin({
     compressor: {
-      warnings: false
+      warnings: false,
+      screw_ie8: true
     }
   }),
   new StatsPlugin('webpack.stats.json', {
