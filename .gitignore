@@ -3,3 +3,7 @@ node_modules
 dist
 *.log
 coverage
+release
+
+/index.js
+/index.js.map

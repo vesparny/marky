@@ -1,32 +1,42 @@
-import React, {PropTypes} from 'react';
-import classnames from 'classnames';
-import style from './Panel.styl';
+import React, {PropTypes} from 'react'
+import classnames from 'classnames'
+import {StyleSheet, css} from 'aphrodite'
 
 const Panel = React.createClass({
-
-  propTypes: __DEV__ && {
+  propTypes: {
     onChange: PropTypes.func,
     value: PropTypes.string,
-    overflowY: PropTypes.bool,
-    children: PropTypes.element.isRequired
+    overflowY: PropTypes.bool
   },
 
-  render() {
+  render () {
     const cssClasses = classnames({
-      'col': true,
-      'col-6': true,
-      [style.overflowScroll]: !this.props.overflowY,
-      [style.overflowYScroll]: this.props.overflowY
-    });
+      [css(style.common)]: true,
+      [css(style.overflowScroll)]: !this.props.overflowY,
+      [css(style.overflowYScroll)]: this.props.overflowY
+    })
 
     return (
-      <div
-        className={cssClasses}
-      >
+      <div className={cssClasses}>
         {this.props.children}
       </div>
-    );
+    )
   }
-});
+})
 
-export default Panel;
+const style = StyleSheet.create({
+  common: {
+    height: 'calc(100vh - 90px)'
+  },
+
+  overflowYScroll: {
+    overflow: 'scroll',
+    paddingLeft: '10px'
+  },
+
+  overflowScroll: {
+    overflow: 'scroll'
+  }
+})
+
+export default Panel

@@ -1,31 +1,32 @@
-import * as types from '../constants';
-import parser from '../parser';
+import * as types from '../constants/actionTypes'
+import parser from '../parser'
 
-function updateMarkdown(md) {
-  localStorage.setItem('__MARKY__', md);
-
+function updateMarkdown (markdown = '') {
   return {
     type: types.MARKDOWN_CHANGED,
     payload: {
-      html: parser.render(md),
-      markdown: md
+      html: parser.render(markdown),
+      markdown
     }
-  };
+  }
 }
 
-export function convertMarkdown(md) {
-  return updateMarkdown(md);
+export function convertMarkdown (markdown) {
+  return updateMarkdown(markdown)
 }
 
-export function reset() {
-  const md = require('../default.md');
-
-  return updateMarkdown(md);
-}
-
-export function toggleScrolling() {
+export function fileLoaded ({fileName, filePath}) {
   return {
-    type: types.TOGGLE_SCROLLING,
-    payload: null
-  };
+    type: types.FILE_LOADED,
+    payload: {
+      fileName,
+      filePath
+    }
+  }
+}
+
+export function toggleScrolling () {
+  return {
+    type: types.TOGGLE_SCROLLING
+  }
 }

@@ -1,8 +1,8 @@
-import {combineReducers} from 'redux';
-import marky from './marky';
+import {combineReducers} from 'redux'
+import markdown from './markdown'
 
 const rootReducer = combineReducers({
-  marky
-});
+  markdown
+})
 
-export default rootReducer;
+export default rootReducer

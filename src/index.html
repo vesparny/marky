@@ -3,13 +3,26 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Marky - a markdown editor</title>
-    <meta name="description" content="powered by React and markdown-it">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="dist/main.css">
+    <title>Marky</title>
+    <script>
+      (function() {
+        if (!module.HOT) {
+          const link = document.createElement('link');
+          link.rel = 'stylesheet';
+          link.href = '../dist/main.css';
+          document.write(link.outerHTML);
+        }
+      }());
+    </script>
   </head>
   <body>
     <div id="root"></div>
-    <script src="dist/main.js" defer></script>
+    <script>
+      (function() {
+        const script = document.createElement('script');
+        script.src = (process.env.NODE_ENV === 'development') ? 'http://localhost:8000/dist/main.js' : '../dist/main.js';
+        document.write(script.outerHTML);
+      }());
+    </script>
   </body>
 </html>

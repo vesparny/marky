@@ -1,40 +1,44 @@
-import 'babel/polyfill';
-import 'basscss/css/basscss.css';
-import 'highlight.js/styles/github.css';
-import './style.css';
-import React from 'react';
-import attachFastClick from 'fastclick';
-import {Provider} from 'react-redux';
-import configureStore from './configureStore';
-import App from './components/App';
-import defaultMd from './default.md';
-import qs from 'query-string';
+import 'highlight.js/styles/github.css'
+import 'normalize.css/normalize.css'
+import './style.css'
+import RedBox from 'redbox-react'
+import React from 'react'
+import ReactDOM from 'react-dom'
+import configureStore from './configureStore'
+import Root from './containers/Root'
+import configureIpcRenderer from './configureIpcRenderer'
 
-// Remove 300ms tap delay on mobile devices
-attachFastClick.attach(document.body);
+const rootElement = document.getElementById('root')
 
-// Expose globally
-window.React = React;
+const store = configureStore()
 
-let marky = {
-  markdown: window.localStorage.getItem('__MARKY__') || defaultMd,
-  html: '',
-  isScrolling: true
-};
+configureIpcRenderer(store)
 
-if (window.location.hash) {
-  const parsedState = qs.parse(window.location.hash);
-  marky = {
-    markdown: parsedState.markdown || defaultMd,
-    html: '',
-    isScrolling: parsedState.isScrolling === 'true'
-  };
+let render = () => {
+  const Root = require('./containers/Root').default
+  ReactDOM.render(
+    <Root store={store} />,
+    rootElement
+  )
 }
 
-const store = configureStore({marky});
+if (module.hot) {
+  const renderApp = render
+  const renderError = (err) => {
+    const RedBox = require('redbox-react')
+    ReactDOM.render(
+      <RedBox error={err} />,
+      rootElement
+    )
+  }
+  render = () => {
+    try {
+      renderApp()
+    } catch (err) {
+      renderError(err)
+    }
+  }
+  module.hot.accept('./containers/Root', render)
+}
 
-React.render(
-  <Provider store={store}>
-    {() => <App />}
-  </Provider>,
-  document.getElementById('root'));
+render()
