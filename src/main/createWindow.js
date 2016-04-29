@@ -44,13 +44,12 @@ export default function createWindow (filePath, cb) {
 
   mainWindowState.manage(mainWindow)
 
-  // and load the index.html of the app.
-
-  // Emitted when the window is closed.
-  mainWindow.webContents.on('new-window', function (e, url) {
+  function openExternal (e, url) {
     e.preventDefault()
     shell.openExternal(url)
-  })
+  }
+  mainWindow.webContents.on('new-window', openExternal)
+  mainWindow.webContents.on('will-navigate', openExternal)
 
   return mainWindow
 }
