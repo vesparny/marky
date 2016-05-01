@@ -4,7 +4,7 @@ import windowStateKeeper from 'electron-window-state'
 import { shell } from 'electron'
 import window from './windowManager'
 
-export default function createWindow (filePath, cb) {
+export default function createWindow (filePath, callback) {
   // Create the browser window.
 
   const mainWindowState = windowStateKeeper({
@@ -36,6 +36,7 @@ export default function createWindow (filePath, cb) {
     } else {
       mainWindow.setTitle('Marky -- Untitled Document')
     }
+    callback()
   })
 
   if (process.env.NODE_ENV === 'development') {

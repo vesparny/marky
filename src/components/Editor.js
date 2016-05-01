@@ -27,23 +27,25 @@ const Editor = React.createClass({
     this.editor.setTheme('ace/theme/github')
     this.editor.setFontSize(14)
     this.editor.on('change', this.onChange)
-    this.editor.setValue(this.props.value, 1)
+    this.editor.setValue(this.props.value, -1)
     this.editor.setOption('maxLines', 99999)
     this.editor.setOption('minLines', 50)
     this.editor.setOption('highlightActiveLine', true)
     this.editor.setShowPrintMargin(false)
+    this.editor.focus()
     // FIXME
-    setInterval(() => this.editor.resize(), 1)
+    this.interval = setInterval(() => this.editor.resize(), 100)
   },
 
   componentWillReceiveProps (nextProps) {
     if (this.editor.getValue() !== nextProps.value) {
-      this.editor.setValue(nextProps.value)
+      this.editor.setValue(nextProps.value, -1)
     }
   },
 
   componentWillUnmount () {
     this.editor.destroy()
+    clearInterval(this.interval)
   },
 
   onChange () {

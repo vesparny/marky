@@ -28,7 +28,7 @@ function _unref () {
 function _loadUrl (httpOrFileUrl, callback) {
   const win = this
   win.webContents.once('did-finish-load', (...args) => {
-    callback.apply(this, ...args)
+    callback(...args)
   })
   win.loadURL('file://' + httpOrFileUrl)
 }
@@ -42,7 +42,7 @@ function createWindow (options) {
   window.showUrl = function (httpOrFileUrl, callback) {
     window._loadUrl(httpOrFileUrl, (...args) => {
       window.show()
-      callback && callback.apply(this, ...args)
+      callback && callback(...args)
     })
   }
 

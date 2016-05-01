@@ -7,7 +7,9 @@ let isReady = false
 let pathToOpen
 
 function onReady () {
-  createWindow(pathToOpen)
+  createWindow(pathToOpen, () => {
+    isReady = true
+  })
   Menu.setApplicationMenu(Menu.buildFromTemplate(configureMenu({app})))
 }
 
