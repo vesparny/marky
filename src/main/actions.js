@@ -15,7 +15,7 @@ ipcMain.on('MARKY::dropped-file', (e, {filePath}) => {
 })
 
 function openFile (filePath, browserWindow) {
-  if (EXTENSIONS.indexOf(extname(filePath).toLowerCase()) !== -1 || !extname(filePath)) {
+  if (EXTENSIONS.indexOf(extname(filePath).slice(1).toLowerCase()) !== -1 || !extname(filePath)) {
     const fileSize = fs.getSizeSync(filePath)
     if (fileSize >= 1048576) { // 1MB
       const confirm = dialog.showMessageBox(browserWindow, {
@@ -37,7 +37,7 @@ function openFile (filePath, browserWindow) {
     type: 'error',
     title: 'Unsupported File',
     message: 'You are trying to load a not supported file',
-    detail: 'The supported file extensions are \n\n' + EXTENSIONS.join(' '),
+    detail: 'The supported file extensions are \n\n' + EXTENSIONS.join(' ,'),
     buttons: ['Ok']
   })
 }

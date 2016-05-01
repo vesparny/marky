@@ -24,12 +24,7 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
     }),
-    new webpack.optimize.UglifyJsPlugin({
-      compressor: {
-        warnings: false,
-        screw_ie8: true
-      }
-    })
+    new webpack.DefinePlugin({'global.GENTLY': false}) // superagent https://github.com/visionmedia/superagent/issues/672
   ],
   node: {
     __dirname: false,

@@ -14,7 +14,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development electron -r babel-register index.dev.js",
     "build": "cross-env NODE_ENV=production node -r babel-register build.js",
-    "build:all": "npm run build -- --all",
+    "build:all": "npm run build -- --package=all platform=darwin",
     "test": "ava \"test/**/*.spec.js\" --verbose",
     "lint": "standard"
   },
@@ -43,6 +43,7 @@
     "wordcount": "^1.1.1"
   },
   "devDependencies": {
+    "appdmg": "^0.3.7",
     "autoprefixer-core": "^6.0.1",
     "ava": "^0.14.0",
     "babel-cli": "^6.7.7",
@@ -66,7 +67,7 @@
     "minimist": "^1.2.0",
     "redbox-react": "^1.2.3",
     "redux-logger": "^2.6.1",
-    "rimraf": "^2.4.3",
+    "rimraf": "^2.5.2",
     "sinon": "^1.16.1",
     "standard": "^6.0.8",
     "style-loader": "^0.13.1",
