@@ -2,7 +2,7 @@
   "name": "marky",
   "productName": "Marky",
   "private": true,
-  "version": "0.1.0-apha.1",
+  "version": "0.0.1",
   "description": "Markdown editor",
   "author": "Alessandro Arnodo <alessandro@arnodo.net> (https://alessandro.arnodo.net)",
   "license": "MIT",
@@ -38,6 +38,8 @@
     "react-split-pane": "^0.1.37",
     "rebass": "^0.2.6",
     "redux": "^3.5.2",
+    "semver": "^5.1.0",
+    "superagent": "^1.8.3",
     "wordcount": "^1.1.1"
   },
   "devDependencies": {

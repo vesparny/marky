@@ -19,6 +19,11 @@ export default {
       shell.openExternal('https://github.com/vesparny/marky')
     }
   }, {
+    label: 'Changelog',
+    click: function () {
+      shell.openExternal('https://github.com/vesparny/marky/blob/master/CHANGELOG.md')
+    }
+  }, {
     label: 'Markdown syntax',
     click: function () {
       shell.openExternal('https://daringfireball.net/projects/markdown/syntax')

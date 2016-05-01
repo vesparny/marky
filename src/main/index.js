@@ -1,7 +1,8 @@
-import { app, Menu } from 'electron'
+import { app, Menu, dialog, shell } from 'electron'
 import configureMenu from './configureMenu'
 import createWindow from './createWindow'
 import window from './windowManager'
+import autoUpdater from './autoUpdater'
 
 let isReady = false
 let pathToOpen
@@ -9,6 +10,19 @@ let pathToOpen
 function onReady () {
   createWindow(pathToOpen, () => {
     isReady = true
+    autoUpdater((err, newVersion) => {
+      if (err) return
+      const confirm = dialog.showMessageBox({
+        type: 'info',
+        title: 'Update available',
+        message: 'A new version of Marky is available.',
+        detail: 'Do you want to download it now?',
+        buttons: ['Yes', 'No']
+      })
+      if (confirm === 0) {
+        shell.openExternal('https://github.com/vesparny/marky/releases')
+      }
+    })
   })
   Menu.setApplicationMenu(Menu.buildFromTemplate(configureMenu({app})))
 }
