@@ -28,4 +28,15 @@ export default function configureIpcRenderer (store) {
       data
     })
   })
+
+  window.document.addEventListener('drop', (e) => {
+    e.preventDefault()
+    ipcRenderer.send('MARKY::dropped-file', {
+      filePath: e.dataTransfer.files[0].path
+    })
+  })
+
+  window.document.addEventListener('dragover', (e) => {
+    e.preventDefault()
+  })
 }

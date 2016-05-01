@@ -36,7 +36,7 @@ export default function createWindow (filePath, callback) {
     } else {
       mainWindow.setTitle('Marky -- Untitled Document')
     }
-    callback()
+    callback && callback()
   })
 
   if (process.env.NODE_ENV === 'development') {
