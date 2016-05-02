@@ -32,6 +32,7 @@
 * Search in Markdown
 * Syntax highlighting
 * Emoji Support
+* Words count
 * Resizable panels
 * Finder integration (OS X)
 
