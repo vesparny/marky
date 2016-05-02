@@ -10,10 +10,10 @@ var cp = require('child_process')
 var electronPackager = require('electron-packager')
 var fs = require('fs')
 var minimist = require('minimist')
-var mkdirp = require('mkdirp')
+// var mkdirp = require('mkdirp')
 var path = require('path')
 var rimraf = require('rimraf')
-var series = require('run-series')
+// var series = require('run-series')
 var zip = require('cross-zip')
 
 var pkg = require('./package.json')
@@ -25,9 +25,9 @@ var BUILD_NAME = pkg.productName + '-v' + pkg.version
  *   - Windows Authenticode private key and cert (authenticode.p12)
  *   - Windows Authenticode password file (authenticode.txt)
  */
-var CERT_PATH = process.platform === 'win32'
-  ? 'D:'
-  : '/Volumes/Certs'
+// var CERT_PATH = process.platform === 'win32'
+//  ? 'D:'
+//  : '/Volumes/Certs'
 
 var DIST_PATH = path.join(__dirname, 'release')
 var ROOT_PATH = __dirname

@@ -12,9 +12,9 @@
   "homepage": "https://github.com/vesparny/marky",
   "main": "index.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development electron -r babel-register index.dev.js",
+    "start": "cross-env NODE_ENV=development electron -r babel-register index.dev.js",
     "build": "cross-env NODE_ENV=production node -r babel-register build.js",
-    "test": "ava \"test/**/*.spec.js\" --verbose",
+    "test": "npm run lint",
     "lint": "standard"
   },
   "dependencies": {
@@ -43,8 +43,6 @@
   },
   "devDependencies": {
     "appdmg": "^0.3.7",
-    "autoprefixer-core": "^6.0.1",
-    "ava": "^0.14.0",
     "babel-cli": "^6.7.7",
     "babel-core": "^6.7.7",
     "babel-loader": "^6.2.4",
@@ -52,7 +50,6 @@
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-2": "^6.5.0",
     "babel-register": "^6.7.2",
-    "chai": "^3.2.0",
     "cross-env": "^1.0.7",
     "css-loader": "^0.23.1",
     "electron-installer-dmg": "^0.1.1",
@@ -67,7 +64,6 @@
     "redbox-react": "^1.2.3",
     "redux-logger": "^2.6.1",
     "rimraf": "^2.5.2",
-    "sinon": "^1.16.1",
     "standard": "^6.0.8",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.0",
