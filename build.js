@@ -208,7 +208,7 @@ function buildDarwin (cb) {
     infoPlist.CFBundleDocumentTypes = [
       {
         CFBundleTypeExtensions: require('./src/constants/globals').EXTENSIONS,
-        CFBundleTypeIconFile: 'icon.icns',
+        CFBundleTypeIconFile: 'iconFile.icns',
         CFBundleTypeName: 'Markdown Document',
         CFBundleTypeRole: 'Editor',
         LSHandlerRank: 'Owner',
@@ -218,8 +218,8 @@ function buildDarwin (cb) {
 
     fs.writeFileSync(infoPlistPath, plist.build(infoPlist))
 
-    // Copy torrent file icon into app bundle
-    cp.execSync(`cp ${path.join(__dirname, 'assets', 'icon') + '.icns'} ${resourcesPath}`)
+    // Copy file icon into app bundle
+    cp.execSync(`cp ${path.join(__dirname, 'assets', 'iconFile') + '.icns'} ${resourcesPath}`)
 
     if (process.platform === 'darwin') {
       if (argv.sign) {
