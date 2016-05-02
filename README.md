@@ -7,8 +7,9 @@
   <br>
 </h1>
 
-<h4 align="center">A Markdown editor. For OS X (Windows, and Linux soon)</h4>
-<h5 align="center">Build wit Electron</h5>
+<h4 align="center">A Markdown editor</h4>
+<h4 align="center">For OS X (Windows, and Linux soon)</h4>
+<h5 align="center">Built with Electron and React + Redux</h5>
 
 
 <p align="center">
