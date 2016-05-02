@@ -15,7 +15,7 @@ function onReady () {
       const confirm = dialog.showMessageBox({
         type: 'info',
         title: 'Update available',
-        message: 'A new version of Marky is available.',
+        message: `A new version (${newVersion}) of Marky is available.`,
         detail: 'Do you want to download it now?',
         buttons: ['Yes', 'No']
       })

@@ -6,7 +6,7 @@ import * as colors from '../constants/colors'
 const Header = ({wordCount, fileName}) => (
   <div>
     <Toolbar style={{
-      backgroundColor: colors.TOMATO
+      backgroundColor: colors.GRAY
     }}>
       <Heading level={3}>MARKY</Heading>
       <Space auto/>
@@ -23,7 +23,7 @@ const Header = ({wordCount, fileName}) => (
       backgroundColor: colors.LIGHT_GRAY,
       height: '40px',
       minHeight: '40px',
-      color: colors.TOMATO
+      color: colors.GRAY
     }}>
       <span>{fileName || 'Untitled Document'}</span>
       <Space auto/>

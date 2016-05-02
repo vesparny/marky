@@ -6,7 +6,9 @@ export default function autoUpdater (callback) {
   superagent
   .get('https://raw.githubusercontent.com/vesparny/marky/master/package.json')
   .end((err, res) => {
-    if (!err || res.ok) {
+    if (err || !res.ok) {
+      callback(err)
+    } else {
       try {
         const newVersion = JSON.parse(res.text).version
         if (semver.gt(newVersion, currentVersion)) {
@@ -15,8 +17,6 @@ export default function autoUpdater (callback) {
       } catch (err) {
         callback(err)
       }
-    } else {
-      callback(err)
     }
   })
 }

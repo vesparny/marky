@@ -3,7 +3,7 @@
   "productName": "Marky",
   "private": true,
   "version": "0.0.1",
-  "description": "Markdown editor",
+  "description": "A Markdown editor",
   "author": "Alessandro Arnodo <alessandro@arnodo.net> (https://alessandro.arnodo.net)",
   "license": "MIT",
   "bugs": {
@@ -14,7 +14,6 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development electron -r babel-register index.dev.js",
     "build": "cross-env NODE_ENV=production node -r babel-register build.js",
-    "build:all": "npm run build -- --package=all platform=darwin",
     "test": "ava \"test/**/*.spec.js\" --verbose",
     "lint": "standard"
   },

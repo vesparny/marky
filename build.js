@@ -29,7 +29,8 @@ var CERT_PATH = process.platform === 'win32'
   ? 'D:'
   : '/Volumes/Certs'
 
-var DIST_PATH = path.join('release')
+var DIST_PATH = path.join(__dirname, 'release')
+var ROOT_PATH = __dirname
 
 var argv = minimist(process.argv.slice(2), {
   boolean: [
@@ -100,11 +101,14 @@ var all = {
   'build-version': '0-' + cp.execSync('git rev-parse --short HEAD').toString().replace('\n', ''),
 
   // The application source directory.
-  dir: './',
+  dir: ROOT_PATH,
 
   // Pattern which specifies which files to ignore when copying files to create the
   // package(s).
-  // ignore: /^\/dist|\/(appveyor.yml|\.appveyor.yml|\.github|appdmg|AUTHORS|CONTRIBUTORS|bench|benchmark|benchmark\.js|bin|bower\.json|component\.json|coverage|doc|docs|docs\.mli|dragdrop\.min\.js|example|examples|example\.html|example\.js|externs|ipaddr\.min\.js|Makefile|min|minimist|perf|rusha|simplepeer\.min\.js|simplewebsocket\.min\.js|static\/screenshot\.png|test|tests|test\.js|tests\.js|webtorrent\.min\.js|\.[^\/]*|.*\.md|.*\.markdown)$/,
+  ignore: [
+    '^/release'
+  ],
+  // ignore: /^\/dist|\/(\.appveyor.yml|\.github|appdmg|AUTHORS|CONTRIBUTORS|bench|benchmark|benchmark\.js|bin|bower\.json|component\.json|coverage|doc|docs|docs\.mli|dragdrop\.min\.js|example|examples|example\.html|example\.js|externs|ipaddr\.min\.js|Makefile|min|minimist|perf|rusha|simplepeer\.min\.js|simplewebsocket\.min\.js|static\/screenshot\.png|test|tests|test\.js|tests\.js|webtorrent\.min\.js|\.[^\/]*|.*\.md|.*\.markdown)$/,
 
   // The application name.
   name: pkg.productName,
@@ -262,7 +266,7 @@ function buildDarwin (cb) {
     }
 
     function pack (cb) {
-      // packageZip() // always produce .zip file, used for automatic updates
+      packageZip() // always produce .zip file, used for automatic updates
 
       if (argv.package === 'dmg' || argv.package === 'all') {
         packageDmg(cb)
@@ -290,12 +294,12 @@ function buildDarwin (cb) {
 
       // Create a .dmg (OS X disk image) file, for easy user installation.
       var dmgOpts = {
-        basepath: './',
+        basepath: ROOT_PATH,
         target: targetPath,
         specification: {
           title: pkg.productName,
           icon: path.join('assets', 'icon.icns'),
-          background: path.join('assets', 'transparent.png'),
+          background: path.join('assets', 'appdmg.png'),
           'icon-size': 128,
           contents: [
             { x: 122, y: 240, type: 'file', path: appPath },
@@ -463,5 +467,7 @@ function printDone (err) {
  * ship unsigned binaries to users.
  */
 function printWarning () {
-  console.warn('Unsigned app')
+  console.warn('############')
+  console.warn('WARNING: ---- Unsigned app ----')
+  console.warn('############')
 }
