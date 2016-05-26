@@ -183,7 +183,6 @@ var linux = {
   // Note: Application icon for Linux is specified via the BrowserWindow `icon` option.
 }
 
-
 buildWebpack(electronCfg)
   .then(() => buildWebpack(cfg))
   .then(build)
