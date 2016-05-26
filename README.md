@@ -15,6 +15,9 @@
 <p align="center">
   <a href="https://travis-ci.org/vesparny/marky"><img src="https://img.shields.io/travis/vesparny/marky/master.svg" alt="Travis"></a>
   <a href="https://github.com/vesparny/marky/releases"><img src="https://img.shields.io/github/release/vesparny/marky.svg" alt="Release"></a>
+  <a href="https://github.com/vesparny/marky/releases"><img src="https://img.shields.io/github/downloads/vesparny/marky/total.svg" alt="Downloads"></a>
+  <a href="https://david-dm.org/vesparny/marky"><img src="https://david-dm.org/vesparny/marky/status.svg" alt="Dependency status"></a>
+  <a href="https://david-dm.org/vesparny/marky#info=devDependencies"><img src="https://david-dm.org/vesparny/marky/dev-status.svg" alt="Dev dependency status"></a>
 </p>
 
 ## Install

@@ -68,7 +68,7 @@ function build () {
       printDone(err)
         // buildWin32(function (err) {
         // printDone(err)
-        // buildLinux(printDone)
+      buildLinux(printDone)
       // })
     })
   }
