@@ -13,7 +13,7 @@ var minimist = require('minimist')
 // var mkdirp = require('mkdirp')
 var path = require('path')
 var rimraf = require('rimraf')
-// var series = require('run-series')
+var series = require('run-series')
 var zip = require('cross-zip')
 
 var pkg = require('./package.json')
@@ -62,7 +62,7 @@ function build () {
   } else if (platform === 'win32') {
     // buildWin32(printDone)
   } else if (platform === 'linux') {
-    // buildLinux(printDone)
+    buildLinux(printDone)
   } else {
     buildDarwin(function (err) {
       printDone(err)
@@ -173,7 +173,7 @@ var win32 = {
   // Application icon.
   icon: config.APP_ICON + '.ico'
 }
-
+*/
 var linux = {
   platform: 'linux',
 
@@ -182,7 +182,7 @@ var linux = {
 
   // Note: Application icon for Linux is specified via the BrowserWindow `icon` option.
 }
-*/
+
 
 buildWebpack(electronCfg)
   .then(() => buildWebpack(cfg))
@@ -394,7 +394,7 @@ function buildWin32 (cb) {
     }
   })
 }
-
+*/
 function buildLinux (cb) {
   console.log('Linux: Packaging electron...')
   electronPackager(Object.assign({}, all, linux), function (err, buildPath) {
@@ -427,11 +427,7 @@ function buildLinux (cb) {
       info: {
         arch: destArch === 'x64' ? 'amd64' : 'i386',
         targetDir: DIST_PATH,
-        depends: 'libc6 (>= 2.4)',
-        scripts: {
-          postinst: path.join(config.STATIC_PATH, 'linux', 'postinst'),
-          prerm: path.join(config.STATIC_PATH, 'linux', 'prerm')
-        }
+        depends: 'libc6 (>= 2.4)'
       }
     }, [{
       src: ['./**'],
@@ -457,7 +453,7 @@ function buildLinux (cb) {
     cb(null)
   }
 }
-*/
+
 function printDone (err) {
   if (err) console.error(err.message || err)
 }

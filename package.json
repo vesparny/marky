@@ -42,7 +42,6 @@
     "wordcount": "^1.1.1"
   },
   "devDependencies": {
-    "appdmg": "^0.3.7",
     "babel-cli": "^6.7.7",
     "babel-core": "^6.7.7",
     "babel-loader": "^6.2.4",
@@ -51,6 +50,7 @@
     "babel-preset-stage-2": "^6.5.0",
     "babel-register": "^6.7.2",
     "cross-env": "^1.0.7",
+    "cross-zip": "^2.1.2",
     "css-loader": "^0.23.1",
     "electron-installer-dmg": "^0.1.1",
     "electron-packager": "^7.0.1",
@@ -61,12 +61,17 @@
     "extract-text-webpack-plugin": "^1.0.1",
     "json-loader": "^0.5.2",
     "minimist": "^1.2.0",
+    "nobin-debian-installer": "0.0.10",
     "redbox-react": "^1.2.3",
     "redux-logger": "^2.6.1",
     "rimraf": "^2.5.2",
+    "run-series": "^1.1.4",
     "standard": "^6.0.8",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.0",
     "webpack-dev-server": "^1.14.1"
+  },
+  "optionalDependencies": {
+    "appdmg": "^0.3.7"
   }
 }
