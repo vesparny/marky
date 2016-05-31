@@ -9,7 +9,7 @@ const Header = ({wordCount, fileName}) => (
       backgroundColor: colors.GRAY
     }}>
       <Heading level={3}>MARKY</Heading>
-      <Space auto/>
+      <Space auto />
       <NavItem onClick={() => window.alert('More options will be available soon!')}>
         <Icon
           height='1.5em'
@@ -26,11 +26,11 @@ const Header = ({wordCount, fileName}) => (
       color: colors.GRAY
     }}>
       <span>{fileName || 'Untitled Document'}</span>
-      <Space auto/>
+      <Space auto />
       <span style={{color: colors.VERY_LIGHT_GRAY}}>words:</span>
-      <Space/>
+      <Space />
       <span>{wordCount}</span>
-      <Space/>
+      <Space />
     </Toolbar>
   </div>
 
