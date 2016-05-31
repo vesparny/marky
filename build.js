@@ -10,7 +10,8 @@ var cp = require('child_process')
 var electronPackager = require('electron-packager')
 var fs = require('fs')
 var minimist = require('minimist')
-// var mkdirp = require('mkdirp')
+// const os = require('os')
+var mkdirp = require('mkdirp')
 var path = require('path')
 var rimraf = require('rimraf')
 var series = require('run-series')
@@ -20,15 +21,6 @@ var pkg = require('./package.json')
 
 var BUILD_NAME = pkg.productName + '-v' + pkg.version
 
-/*
- * Path to folder with the following files:
- *   - Windows Authenticode private key and cert (authenticode.p12)
- *   - Windows Authenticode password file (authenticode.txt)
- */
-// var CERT_PATH = process.platform === 'win32'
-//  ? 'D:'
-//  : '/Volumes/Certs'
-
 var DIST_PATH = path.join(__dirname, 'release')
 var ROOT_PATH = __dirname
 
@@ -37,7 +29,7 @@ var argv = minimist(process.argv.slice(2), {
     'sign'
   ],
   default: {
-    package: 'all',
+    package: 'exe',
     sign: false
   },
   string: [
@@ -60,16 +52,16 @@ function build () {
   if (platform === 'darwin') {
     buildDarwin(printDone)
   } else if (platform === 'win32') {
-    // buildWin32(printDone)
+    buildWin32(printDone)
   } else if (platform === 'linux') {
     buildLinux(printDone)
   } else {
     buildDarwin(function (err) {
       printDone(err)
-        // buildWin32(function (err) {
-        // printDone(err)
-      buildLinux(printDone)
-      // })
+      buildWin32(function (err) {
+        printDone(err)
+        buildLinux(printDone)
+      })
     })
   }
 }
@@ -80,7 +72,7 @@ var all = {
 
   // The human-readable copyright line for the app. Maps to the `LegalCopyright` metadata
   // property on Windows, and `NSHumanReadableCopyright` on OS X.
-  'app-copyright': 'Copyright © 2016 Alessandro Arnodo',
+  'app-copyright': 'Copyright © 2016-present Alessandro Arnodo',
 
   // The release version of the application. Maps to the `ProductVersion` metadata
   // property on Windows, and `CFBundleShortVersionString` on OS X.
@@ -89,11 +81,11 @@ var all = {
   // Package the application's source code into an archive, using Electron's archive
   // format. Mitigates issues around long path names on Windows and slightly speeds up
   // require().
-  asar: false,
+  asar: true,
 
   // A glob expression, that unpacks the files with matching names to the
   // "app.asar.unpacked" directory.
-  // 'asar-unpack': 'WebTorrent*',
+  'asar-unpack': 'Marky*',
 
   // The build version of the application. Maps to the FileVersion metadata property on
   // Windows, and CFBundleVersion on OS X. We're using the short git hash (e.g. 'e7d837e')
@@ -143,44 +135,46 @@ var darwin = {
   // Application icon.
   icon: path.join(__dirname, 'assets', 'icon') + '.icns'
 }
-/*
+
 var win32 = {
   platform: 'win32',
 
+  // Build 32 bit binaries only.
+  arch: 'ia32',
+
   // Object hash of application metadata to embed into the executable (Windows only)
   'version-string': {
-
     // Company that produced the file.
-    CompanyName: config.APP_NAME,
+    CompanyName: pkg.productName,
 
     // Name of the program, displayed to users
-    FileDescription: config.APP_NAME,
+    FileDescription: pkg.productName,
 
     // Original name of the file, not including a path. This information enables an
     // application to determine whether a file has been renamed by a user. The format of
     // the name depends on the file system for which the file was created.
-    OriginalFilename: config.APP_NAME + '.exe',
+    OriginalFilename: pkg.productName + '.exe',
 
     // Name of the product with which the file is distributed.
-    ProductName: config.APP_NAME,
+    ProductName: pkg.productName,
 
     // Internal name of the file, if one exists, for example, a module name if the file
     // is a dynamic-link library. If the file has no internal name, this string should be
     // the original filename, without extension. This string is required.
-    InternalName: config.APP_NAME
+    InternalName: pkg.productName
   },
 
   // Application icon.
-  icon: config.APP_ICON + '.ico'
+  icon: path.join(__dirname, 'assets', 'icon.ico')
 }
-*/
+
 var linux = {
   platform: 'linux',
 
   // Build 32/64 bit binaries.
   arch: 'all'
 
-  // Note: Application icon for Linux is specified via the BrowserWindow `icon` option.
+// Note: Application icon for Linux is specified via the BrowserWindow `icon` option.
 }
 
 buildWebpack(electronCfg)
@@ -319,15 +313,31 @@ function buildDarwin (cb) {
     }
   })
 }
-/*
+
 function buildWin32 (cb) {
   var installer = require('electron-winstaller')
 
   console.log('Windows: Packaging electron...')
+
+  /*
+   * Path to folder with the following files:
+   *   - Windows Authenticode private key and cert (authenticode.p12)
+   *   - Windows Authenticode password file (authenticode.txt)
+   */
+   /*
+  var CERT_PATH
+  try {
+    fs.accessSync('D:')
+    CERT_PATH = 'D:'
+  } catch (err) {
+    CERT_PATH = path.join(os.homedir(), 'Desktop')
+  }
+  */
   electronPackager(Object.assign({}, all, win32), function (err, buildPath) {
     if (err) return cb(err)
     console.log('Windows: Packaged electron. ' + buildPath[0])
 
+    /*
     var signWithParams
     if (process.platform === 'win32') {
       if (argv.sign) {
@@ -341,6 +351,7 @@ function buildWin32 (cb) {
     } else {
       printWarning()
     }
+    */
 
     var tasks = []
     if (argv.package === 'exe' || argv.package === 'all') {
@@ -352,29 +363,31 @@ function buildWin32 (cb) {
     series(tasks, cb)
 
     function packageInstaller (cb) {
-      console.log('Windows: Creating installer...')
+      console.log('Packaging windows installer...')
       installer.createWindowsInstaller({
         appDirectory: buildPath[0],
-        authors: config.APP_TEAM,
-        description: config.APP_NAME,
-        exe: config.APP_NAME + '.exe',
-        iconUrl: config.GITHUB_URL_RAW + '/static/' + config.APP_NAME + '.ico',
-        loadingGif: path.join(config.STATIC_PATH, 'loading.gif'),
-        name: config.APP_NAME,
+        authors: 'Alessandro Arnodo',
+        description: pkg.productName,
+        exe: pkg.productName + '.exe',
+        iconUrl: 'https://github.com/vesparny/marky/tree/master/assets/icon.ico',
+        // loadingGif: path.join(config.STATIC_PATH, 'loading.gif'),
+        name: pkg.productName,
         noMsi: true,
         outputDirectory: DIST_PATH,
-        productName: config.APP_NAME,
-        remoteReleases: config.GITHUB_URL,
-        setupExe: config.APP_NAME + 'Setup-v' + config.APP_VERSION + '.exe',
-        setupIcon: config.APP_ICON + '.ico',
-        signWithParams: signWithParams,
-        title: config.APP_NAME,
+        productName: pkg.productName,
+        // remoteReleases: config.GITHUB_URL,
+        setupExe: pkg.productName + 'Setup-v' + pkg.version + '.exe',
+        setupIcon: path.join(__dirname, 'assets', 'icon') + '.ico',
+        // signWithParams: signWithParams,
+        title: pkg.productName,
         usePackageJson: false,
         version: pkg.version
-      }).then(function () {
-        console.log('Windows: Created installer.')
-        cb(null)
-      }).catch(cb)
+      })
+        .then(function () {
+          console.log('Windows: Created installer.')
+          cb(null)
+        })
+        .catch(cb)
     }
 
     function packagePortable (cb) {
@@ -393,7 +406,7 @@ function buildWin32 (cb) {
     }
   })
 }
-*/
+
 function buildLinux (cb) {
   console.log('Linux: Packaging electron...')
   electronPackager(Object.assign({}, all, linux), function (err, buildPath) {

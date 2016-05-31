@@ -8,7 +8,7 @@
 </h1>
 
 <h4 align="center">A Markdown editor</h4>
-<h4 align="center">For OS X (Windows, and Linux soon)</h4>
+<h4 align="center">For OS X, Windows and Linux</h4>
 <h5 align="center">Built with Electron and React + Redux</h5>
 
 
@@ -23,6 +23,8 @@
 ## Install
 
 **Marky** is still under development. You can download the latest version from the [releases](https://github.com/vesparny/marky/releases) page.
+
+Please not that binaries are not signed. If you need them to be signed you can easily do it with your own certificates.
 
 
 <p align="center">
@@ -109,6 +111,11 @@ brew install wine
 ### Code Style
 
 [![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
+
+## Inspiration
+
+* https://github.com/feross/webtorrent-desktop (the build script has been basically copy-pasted from there)
+* https://github.com/chentsulin/electron-react-boilerplate
 
 ## License
 
