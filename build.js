@@ -29,7 +29,7 @@ var argv = minimist(process.argv.slice(2), {
     'sign'
   ],
   default: {
-    package: 'exe',
+    package: 'all',
     sign: false
   },
   string: [
