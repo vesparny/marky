@@ -2,7 +2,7 @@
   "name": "marky",
   "productName": "Marky",
   "private": true,
-  "version": "0.0.2",
+  "version": "0.0.1",
   "description": "A Markdown editor",
   "author": "Alessandro Arnodo <alessandro@arnodo.net> (https://alessandro.arnodo.net)",
   "license": "MIT",
