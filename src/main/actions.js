@@ -43,7 +43,7 @@ function openFile (filePath, browserWindow) {
 }
 
 ipcMain.on('MARKY::save-file-as', (e, {data}) => {
-  const filePath = dialog.showSaveDialog()
+  const filePath = dialog.showSaveDialog({})
   if (filePath) {
     fs.writeFile(filePath, data, 'utf-8', function (err) {
       if (err) return
