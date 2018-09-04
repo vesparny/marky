@@ -20,9 +20,7 @@
   <a href="https://david-dm.org/vesparny/marky#info=devDependencies"><img src="https://david-dm.org/vesparny/marky/dev-status.svg" alt="Dev dependency status"></a>
 </p>
 
-<a target='_blank' rel='nofollow' href='https://app.codesponsor.io/link/aF8QWaPs78PSySxWPHXXNThZ/vesparny/marky'>
-  <img alt='Sponsor' width='888' height='68' src='https://app.codesponsor.io/embed/aF8QWaPs78PSySxWPHXXNThZ/vesparny/marky.svg' />
-</a>
+
 
 ## Install
 
